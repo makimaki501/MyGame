@@ -47,6 +47,8 @@ public:
 
 	//実行からのカウント
 	int counter;
+	//どちらに移動中なのか　0:左 1:下 2:右 3:上
+	int state;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

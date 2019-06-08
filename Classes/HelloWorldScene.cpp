@@ -147,6 +147,8 @@ bool HelloWorld::init()
 	sprite->setOpacity(255);
 
 	counter = 0;
+	
+	state = 0;
 
 	//updateを有効にする
 	this->scheduleUpdate();
@@ -171,22 +173,69 @@ void HelloWorld::update(float delta)
 {
 	//ここに更新処理を書く
 
-	//スプライトの現在座標を取得
-	Vec2 pos = sprite->getPosition();
-	//座標を移動させる
-	pos += Vec2(-1.0f, 0.0f);
-	//移動後の座標を反映
-	sprite->setPosition(pos);
+	Vec2 pos;
+
+	switch (state)
+	{
+
+	case 0:
+		//左移動
+		//スプライトの現在座標を取得
+	    pos = sprite->getPosition();
+		//座標を移動させる
+		pos += Vec2(-5.0f, 0.0f);
+		//移動後の座標を反映
+		sprite->setPosition(pos);
+		if (pos.x<=100.0f)
+		{
+			state = 1;//下移動に切り替える
+		}
+		break;
+	case 1:
+		//下移動
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, -5.0f);
+		sprite->setPosition(pos);
+		if (pos.y<=50.0f)
+		{
+			state = 2;
+		}
+		break;
+	case 2:
+		pos = sprite->getPosition();
+		pos += Vec2(5.0f, 0.0f);
+		sprite->setPosition(pos);
+		if (pos.x>=1100.0f)
+		{
+			state = 3;
+		}
+		//右移動
+		break;
+	default:
+		//上移動
+		pos = sprite->getPosition();
+		pos += Vec2(0.0f, 5.0f);
+		sprite->setPosition(pos);
+		if (pos.y >= 600.0f)
+		{
+			state = 0;
+		}
+		break;
+	}
+	
 
 	//だんだん透明にする処理
 	//5秒＝300frm
-	counter++;
+	/*counter++;
 	float opacity =255-(counter / 300.0f*255.0f);
 	if (opacity < 0)
 	{
 		opacity = 0.0f;
 	}
-	sprite->setOpacity(opacity);
+	sprite->setOpacity(opacity);*/
+
+
+
 
 	/*float alfa = sprite->getOpacity();
 	alfa -=0.00003;
