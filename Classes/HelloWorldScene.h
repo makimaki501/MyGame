@@ -43,8 +43,11 @@ public:
     CREATE_FUNC(HelloWorld);
 
 	//スプライト
-	cocos2d::Sprite*sprite;
-	cocos2d::Sprite*sprite2;
+	/*cocos2d::Sprite*sprite;
+	cocos2d::Sprite*sprite2;*/
+
+	//sprite配列
+	cocos2d::Sprite*sprite3[10];
 
 	//実行からのカウント
 	int counter;

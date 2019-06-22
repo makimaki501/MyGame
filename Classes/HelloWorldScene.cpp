@@ -102,6 +102,29 @@ bool HelloWorld::init()
 		this->addChild(label, 1);
 	}
 
+	//乱数の初期化 
+	//C#で言うRandom rnd=new Random();と同じ
+	srand(time(nullptr));
+
+
+	for (int i = 0; i < 5; i++)
+	{
+		sprite3[i] = Sprite::create("sample09.png");
+		this->addChild(sprite3[i]);
+		sprite3[i]->setPosition(Vec2(150 * i, visibleSize.height / 2.0f));
+		sprite3[i]->setTextureRect(Rect(0, 33, 32, 32));
+		sprite3[i]->setScale(2.0f, 2.0f);
+
+		float mx, my;
+
+		mx = (float)rand()/RAND_MAX*600-300;
+		my = (float)rand()/RAND_MAX*600-300;
+
+		//アクション
+		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx,my));
+		sprite3[i]->runAction(action1);
+	}
+
 
 	//↓のと追加したスクリプトがぶつかっているためコメントアウト
 	//// add "HelloWorld" splash screen"
@@ -139,7 +162,7 @@ bool HelloWorld::init()
 	////JumpTo*action1 = JumpTo::create(1.0f,Vec2(200,100),500.0f,3.0f);
 
 	////曲線移動（ベジェ曲線）
-	///*ccBezierConfig conf;
+	//ccBezierConfig conf;
 	//conf.controlPoint_1 = Vec2(500,500);
 	//conf.controlPoint_2 = Vec2(500,100);
 	//conf.endPosition = Vec2(200.0f,100.0f);
@@ -164,7 +187,7 @@ bool HelloWorld::init()
 	////画像のサイズ
 	//sprite->setScale(0.25f, 0.25f);
 
-	///*sprite2->setScale(2.0f, 2.0f);
+	//*sprite2->setScale(2.0f, 2.0f);
 	//sprite2->getTexture()->setAliasTexParameters();*/
 	////左右反転
 	////sprite->setFlippedX(true);
@@ -214,8 +237,8 @@ bool HelloWorld::init()
 */
 
 
-	//updateを有効にする
-	//this->scheduleUpdate();
+//updateを有効にする
+//this->scheduleUpdate();
 	return true;
 }
 
@@ -238,7 +261,7 @@ void HelloWorld::update(float delta)
 	//ここに更新処理を書く
 
 
-	
+
 
 	//Vec2 pos;
 
@@ -328,13 +351,13 @@ void HelloWorld::update(float delta)
 
 
 
-	/*float alfa = sprite->getOpacity();
-	alfa -=0.00003;
-	sprite->setOpacity(alfa);*/
+/*float alfa = sprite->getOpacity();
+alfa -=0.00003;
+sprite->setOpacity(alfa);*/
 
-     
 
-	
+
+
 
 
 }
