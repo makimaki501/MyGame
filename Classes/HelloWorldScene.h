@@ -44,11 +44,19 @@ public:
 
 	//スプライト
 	cocos2d::Sprite*sprite;
+	cocos2d::Sprite*sprite2;
 
 	//実行からのカウント
 	int counter;
 	//どちらに移動中なのか　0:左 1:下 2:右 3:上
 	int state;
+	int state2;
+
+	float _rotate;
+
+	int anim_counter;
+
+	float _color;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
