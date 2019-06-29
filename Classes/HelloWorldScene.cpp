@@ -104,26 +104,36 @@ bool HelloWorld::init()
 
 	//乱数の初期化 
 	//C#で言うRandom rnd=new Random();と同じ
-	srand(time(nullptr));
+	//srand(time(nullptr));
 
 
-	for (int i = 0; i < 5; i++)
-	{
-		sprite3[i] = Sprite::create("sample09.png");
-		this->addChild(sprite3[i]);
-		sprite3[i]->setPosition(Vec2(150 * i, visibleSize.height / 2.0f));
-		sprite3[i]->setTextureRect(Rect(0, 33, 32, 32));
-		sprite3[i]->setScale(2.0f, 2.0f);
 
-		float mx, my;
+	//for (int i = 0; i < 10; i++)
+	//{
 
-		mx = (float)rand()/RAND_MAX*600-300;
-		my = (float)rand()/RAND_MAX*600-300;
+	//	float nx, ny;
+	//	nx = (float)rand()/RAND_MAX*600;
+	//	ny = (float)rand()/RAND_MAX*600;
 
-		//アクション
-		MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx,my));
-		sprite3[i]->runAction(action1);
-	}
+
+	//	sprite3[i] = Sprite::create("sample09.png");
+	//	this->addChild(sprite3[i]);
+	//	sprite3[i]->setPosition(Vec2(nx, ny));
+	//	sprite3[i]->setTextureRect(Rect(0, 33, 32, 32));
+	//	sprite3[i]->setScale(2.0f, 2.0f);
+
+	//	float mx, my;
+	//	
+
+	//	mx = (float)rand()/RAND_MAX*600-300;
+	//	my = (float)rand()/RAND_MAX*600-300;
+	//	
+
+	//	//アクション
+	//	MoveBy* action1 = MoveBy::create(1.0f, Vec2(mx,my));
+	//	JumpBy*action4 = JumpBy::create(1.0f, Vec2(200, 100), 300.0f, 1.0f);
+	//	sprite3[i]->runAction(action1);
+	//}
 
 
 	//↓のと追加したスクリプトがぶつかっているためコメントアウト
@@ -143,23 +153,68 @@ bool HelloWorld::init()
 	//}
 
 	//テクスチャファイル名を指定して、スプライトを作成
-	//Sprite* sprite = Sprite::create("image2.png");
+	Sprite* sprite = Sprite::create("image2.png");
+	sprite = Sprite::create("rion.png");
+	//シーングラフにつなぐ
+	this->addChild(sprite);
+	sprite->setPosition(Vec2(visibleSize.width - 100, visibleSize.height - 100));
+	//画像のサイズ
+	sprite->setScale(0.25f, 0.25f);
 
-	//sprite = Sprite::create("rion.png");
+	/*
+		sprite2 = Sprite::create("sample09.png");
+		this->addChild(sprite2);
+		sprite2->setTextureRect(Rect(0, 33, 32, 32));
+		sprite2->setScale(2.0f,2.0f);*/
 
-	//sprite2 = Sprite::create("sample09.png");
-	//sprite2->setTextureRect(Rect(0, 33, 32, 32));
-	//sprite2->setScale(2.0f,2.0f);
+		//6.Actionの連携
+		//MoveToの後に、JumpToとTintToを同時発動させる
 
-	////シーングラフにつなぐ
-	//this->addChild(sprite);
-	//this->addChild(sprite2);
+		//JumpBy*action1 = JumpBy::create(0.5f, Vec2(100.0f, 100.0f),100,1);
+		//TintTo*action2 = TintTo::create(1.5f, Color3B(0,255,255));
+		//JumpTo*action3 = JumpTo::create(1.0f, Vec2(200.0f, 200.0f), 300.0f, 2);
+		////同時アクションの作成(JumpToとTintTo)
+		//Spawn*action4 = Spawn::create(action2, action3, nullptr);
+		////連続アクションの作成
+		//Sequence*action5 = Sequence::create(action1, action4, nullptr);
+		////繰り返しアクションの作成
+		//Repeat*action6 = Repeat::create(action5, 4);
 
-	////アクション作成（1秒かけて）、右に200、上に100動く
-	//MoveBy* action1 = MoveBy::create(1.0f, Vec2(400, 100));
+		////連続アクションの実行
+		////sprite->runAction(action5);
+		////繰り返しアクションの実行
+		//sprite->runAction(action6);
+
+		//6.やってみよう
+	MoveBy*action1_0 = MoveBy::create(2.0f, Vec2(-1075, 0));
+	MoveBy*action1_1 = MoveBy::create(2.0f, Vec2(1075, 0));
+	FadeIn*action1_2 = FadeIn::create(5.0f);
+	FadeOut*action1_3 = FadeOut::create(5.0f);
+	Spawn*action1_4 = Spawn::create(action1_0, action1_3, nullptr);
+	Spawn*action1_5 = Spawn::create(action1_1, action1_2, nullptr);
+	Sequence*action1_6 = Sequence::create(action1_4, action1_5, nullptr);
+	Repeat*action1_7 = Repeat::create(action1_6, 5);
+	MoveBy*action1_8 = MoveBy::create(2.0, Vec2(0,-525));
+	MoveBy*action1_9 = MoveBy::create(2.0, Vec2(0,525));
+	Sequence*action2_0 = Sequence::create(action1_0, action1_8, action1_1, action1_9, nullptr);
+	RepeatForever*action2_1 = RepeatForever::create(action2_0);
+	sprite->runAction(action2_1);
+
+
+
+
+
+
+	//5.やってみよう4
+	/*MoveBy* action1 = MoveBy::create(5.0f, Vec2(-900, 0));
+	FadeOut*action2 = FadeOut::create(5.0f);*/
+
+	/*RotateBy*action1 = RotateBy::create(5.0f,360.0f);
+	TintTo*action2 = TintTo::create(3.0f,Color3B(255, 255, 0));*/
+
 	//MoveTo* action3 = MoveTo::create(1.0f, Vec2(300, 200));
 	////ScaleBy*action1 = ScaleBy::create(1.0f,1.2f);
-	////JumpTo*action1 = JumpTo::create(1.0f,Vec2(200,100),500.0f,3.0f);
+	//JumpTo*action1 = JumpTo::create(1.0f,Vec2(200,100),300.0f,1.0f);
 
 	////曲線移動（ベジェ曲線）
 	//ccBezierConfig conf;
@@ -173,32 +228,31 @@ bool HelloWorld::init()
 	////EaseBackInOut*action2 = EaseBackInOut::create(action1);
 	////EaseSineIn*action2 = EaseSineIn::create(action1);
 
-	////ノードに対してアクションを実行する
+	//ノードに対してアクションを実行する
 	//sprite->runAction(action1);
-	////同じ名前のアクション名を使いたいときは->clone()をつけてあげる
+	//sprite->runAction(action2);
+	//同じ名前のアクション名を使いたいときは->clone()をつけてあげる
 	//sprite2->runAction(action1->clone());
 
 
 	////画像の座標
-	//sprite->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
+
 	//sprite2->setPosition(Vec2(visibleSize.width / 3.0f, visibleSize.height / 3.0f));
 
 
-	////画像のサイズ
-	//sprite->setScale(0.25f, 0.25f);
 
-	//*sprite2->setScale(2.0f, 2.0f);
-	//sprite2->getTexture()->setAliasTexParameters();*/
-	////左右反転
-	////sprite->setFlippedX(true);
-	////上下反転
-	////sprite->setFlippedY(true);
-	////色合いの設定
-	////sprite->setColor(Color3B(0xff, 0x00, 0x00));
-	////非表示する
-	////sprite->setVisible(false);
-	////不透明度を設定
-	////sprite->setOpacity(0x80);
+	/*sprite2->setScale(2.0f, 2.0f);
+	sprite2->getTexture()->setAliasTexParameters();*/
+	//左右反転
+	//sprite->setFlippedX(true);
+	//上下反転
+	//sprite->setFlippedY(true);
+	//色合いの設定
+	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
+	//非表示する
+	//sprite->setVisible(false);
+	//不透明度を設定
+	//sprite->setOpacity(0x80);
 
 
 	////完全不透明
@@ -267,7 +321,7 @@ void HelloWorld::update(float delta)
 
 
 	////●回転
-	///*_rotate += 1.0f;
+	//_rotate += 1.0f;
 
 	//sprite->setRotation(_rotate);*/
 
