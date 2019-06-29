@@ -201,6 +201,32 @@ bool HelloWorld::init()
 	sprite->runAction(action2_1);
 
 
+	// テクスチャの読み込み
+	Texture2D* texture = Director::getInstance()->getTextureCache()->addImage("sample09.png");
+	// テクスチャからアニメーションパターンを指定する
+	SpriteFrame* frame0 = SpriteFrame::createWithTexture(texture, Rect(32 * 0, 32 * 2, 32, 32));
+	SpriteFrame* frame1 = SpriteFrame::createWithTexture(texture, Rect(32 * 1, 32 * 2, 32, 32));
+	SpriteFrame* frame2 = SpriteFrame::createWithTexture(texture, Rect(32 * 2, 32 * 2, 32, 32));
+	SpriteFrame* frame3 = SpriteFrame::createWithTexture(texture, Rect(32 * 1, 32 * 2, 32, 32));
+	// 全てのアニメーションパターンをまとめる
+	Vector<SpriteFrame*> animFrames(4);
+	animFrames.pushBack(frame0);
+	animFrames.pushBack(frame1);
+	animFrames.pushBack(frame2);
+	animFrames.pushBack(frame3);
+	// アニメーションパターンからSpriteを生成
+	Sprite* sprite1 = Sprite::createWithSpriteFrame(frame0);
+	sprite1->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
+	sprite1->setScale(1.5f); // 拡大
+	this->addChild(sprite1);
+	// 一コマ分の時間を指定してアニメーションデータを生成
+	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+	// アニメーションデータからアニメーションアクションを生成
+	Animate* animate = Animate::create(animation);
+	// 指定回数繰り返すアクションを生成
+	Repeat* repeat = Repeat::create(animate, 20);
+	// アクションの実行
+	sprite1->runAction(repeat);
 
 
 
